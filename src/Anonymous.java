@@ -1,6 +1,8 @@
 
 public class Anonymous {
 	public int howMany(String[] headlines, String[] messages) {
+		
+		// counts[ch] is # occurrences of ch in headlines
         int counts[] = new int[256];
         for(String s : headlines) {
         	for(char ch : s.toLowerCase().toCharArray()) {
@@ -12,17 +14,23 @@ public class Anonymous {
         int total = 0;
         for(String s : messages) {
         	int[] mess = oneCount(s);
-        	boolean canCreate = true;
-        	for(char ch='a'; ch <= 'z'; ch += 1) {
-        		if (mess[ch] > counts[ch]) {
-        			canCreate = false;
-        			break;
-        		}
+        	if (enoughLetters(mess,counts)) {
+        		total += 1;
         	}
-        	if (canCreate) total += 1;
         }
         return total;
   }
+
+	private boolean enoughLetters(int[] mess, int[] allLetters) {
+		boolean canCreate = true;
+    	for(char ch='a'; ch <= 'z'; ch += 1) {
+    		// do we have enough letters to create message?
+    		if (mess[ch] > allLetters[ch]) {
+    			return false;
+    		}
+    	}
+    	return true;
+	}
 
 	private int[] oneCount(String s) {
 		int[] counts = new int[256];
